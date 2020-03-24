@@ -1,0 +1,29 @@
+{
+  "name": "dz0x44/9pay-spider-telco",
+  "description": "9Pay Crawler for Telco Promotion",
+  "keywords": ["9pay", "spider", "crawler", "telco", "promotion"],
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Dz",
+      "email": "dungdh@9pay.vn",
+      "homepage": "https://9pay.vn"
+    }
+  ],
+  "type": "library",
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.1",
+    "fabpot/goutte": "^4.0",
+    "box/spout": "^3.1",
+    "nesbot/carbon": "^2.31.0"
+  },
+  "require-dev": {
+    "larapack/dd": "1.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dz0x44\\Spider\\Telco\\": "src/"
+    }
+  }
+}
