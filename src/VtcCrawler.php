@@ -37,7 +37,8 @@ class VtcCrawler extends CrawlerBase {
 	}
 
 	public function detail($link){
-		$id = array_pop(explode('-', $link));
+		$params = explode('-', $link);
+		$id = array_pop($params);
 		$crawler = $this->client->request('GET', $link);
 
 		$title = $crawler->filter('.tt-big-chitiet h1')->text();
