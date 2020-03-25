@@ -8,12 +8,15 @@ use Carbon\Carbon;
 class VtcCrawler extends CrawlerBase {
 	const URL = 'https://vtcpay.vn/News/GetPromotionData?l=vi&page=1';
 
-	public function crawl(){
+	public function list($dateFrom = false){
+
+		$dateFrom = empty($dateFrom) ? Carbon::now() : Carbon::parse($dateFrom);
+		$links = [];
+
 		$crawler = $this->client->request('GET', self::URL);
 
-		$links = [];
-		$crawler->filter('a.tt')->each(function ($node) use (&$links){
-			if (($date = $this->_getDateFromText($node->text())) && $this->_isValidDate($date)) {
+		$crawler->filter('a.tt')->each(function ($node) use (&$links, $dateFrom){
+			if (($date = $this->_getDateFromText($node->text())) && ($date >= $dateFrom)) {
 				$links[] = $node->attr('href');
 			}
 		});
@@ -33,7 +36,8 @@ class VtcCrawler extends CrawlerBase {
 		return Carbon::create($dateParams[2], $dateParams[1], $dateParams[0]);
 	}
 
-	public function crawlDetail($link){
+	public function detail($link){
+		$id = array_pop(explode('-', $link));
 		$crawler = $this->client->request('GET', $link);
 
 		$title = $crawler->filter('.tt-big-chitiet h1')->text();
@@ -51,6 +55,7 @@ class VtcCrawler extends CrawlerBase {
 		}
 
 		return [
+			'id' => $id,
 			'title' => $title,
 			'telco' => $params[1] ?? '',
 			'image' => $crawler->filter('#news_content img')->eq(0)->attr('src'),
@@ -58,9 +63,5 @@ class VtcCrawler extends CrawlerBase {
 			'teaser' => trim(strip_tags($content[0])),
 			'content' => $content[2] ?? '',
 		];
-	}
-
-	private function _isValidDate($date){
-		return $date >= Carbon::now();
 	}
 }
