@@ -16,6 +16,7 @@ class VtcCrawler extends CrawlerBase {
 		$crawler = $this->client->request('GET', self::URL);
 
 		$crawler->filter('a.tt')->each(function ($node) use (&$links, $dateFrom){
+			dump($this->_getDateFromText($node->text())->toString());
 			if (($date = $this->_getDateFromText($node->text())) && ($date->gte($dateFrom))) {
 				$links[] = $node->attr('href');
 			}
@@ -25,7 +26,7 @@ class VtcCrawler extends CrawlerBase {
 	}
 
 	private function _getDateFromText($text){
-		$params = explode(' ', $text);
+		$params = explode(' ', trim($text));
 		$dateString = array_pop($params);
 		$dateParams = explode('/', $dateString);
 
