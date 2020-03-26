@@ -45,8 +45,7 @@ class VtcCrawler extends CrawlerBase {
 		$content = [];
 
 		$crawler->filter('#news_content div')->each(function ($node) use (&$content){
-			$html = strip_tags($node->html(), '<div><strong>');
-			$content[] = nl2br(trim($html));
+			$content[] = strip_tags($node->html(), '<div><strong><br>');
 		});
 
 		$params = explode(" ", $title);
