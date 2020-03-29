@@ -8,7 +8,7 @@ $dateFrom = $_REQUEST["date_from"] ?? false;
 
 $links = $spider->list($dateFrom);
 dump($links);
-foreach ($links as $link){
+foreach ($links as $link=>$title){
 	$data = $spider->detail($link);
 	dd($data); exit();
 }

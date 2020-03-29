@@ -17,7 +17,7 @@ class VtcCrawler extends CrawlerBase {
 
 		$crawler->filter('a.tt')->each(function ($node) use (&$links, $dateFrom){
 			if (($date = $this->_getDateFromText($node->text())) && ($date->gte($dateFrom))) {
-				$links[] = $node->attr('href');
+				$links[$node->attr('href')] = $node->text();
 			}
 		});
 
