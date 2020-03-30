@@ -56,6 +56,7 @@ class VtcCrawler extends CrawlerBase {
 
 		return [
 			'id' => $id,
+			'link' => $link,
 			'title' => $title,
 			'telco' => $params[1] ?? '',
 			'image' => $crawler->filter('#news_content img')->eq(0)->attr('src'),
