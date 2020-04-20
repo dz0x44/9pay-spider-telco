@@ -10,13 +10,13 @@ class VtcCrawler extends CrawlerBase {
 
 	public function list($dateFrom = false){
 
-		$dateFrom = empty($dateFrom) ? Carbon::now() : Carbon::parse($dateFrom);
+		$dateFrom = empty($dateFrom) ? Carbon::today() : Carbon::parse($dateFrom);
 		$links = [];
 
 		$crawler = $this->client->request('GET', self::URL);
 
 		$crawler->filter('a.tt')->each(function ($node) use (&$links, $dateFrom){
-			if (($date = $this->_getDateFromText($node->text())) && ($date->gte($dateFrom))) {
+			if (($date = $this->_getDateFromText($node->text())) && $date->gte($dateFrom)) {
 				$links[$node->attr('href')] = $node->text();
 			}
 		});
